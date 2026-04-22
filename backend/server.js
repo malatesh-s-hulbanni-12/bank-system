@@ -34,6 +34,25 @@ console.log('===================================');
 app.use(cors());
 app.use(express.json());
 
+// Root route handler - Fix for "Cannot GET /"
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Bank System API is running',
+    version: '1.0.0',
+    status: 'active',
+    endpoints: {
+      admin_login: '/api/admin/login',
+      employee_login: '/api/employee/login',
+      customer_login: '/api/customer/login',
+      customers: '/api/customers/all',
+      employees: '/api/employees',
+      transactions: '/api/transactions',
+      test_cloudinary: '/api/test-cloudinary'
+    }
+  });
+});
+
 // MongoDB Connection with serverless support
 let cached = global.mongoose;
 if (!cached) {
@@ -100,6 +119,14 @@ app.get('/api/test-cloudinary', (req, res) => {
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME ? 'Set' : 'Not Set',
     api_key: process.env.CLOUDINARY_API_KEY ? 'Set' : 'Not Set',
     api_secret: process.env.CLOUDINARY_API_SECRET ? 'Set' : 'Not Set'
+  });
+});
+
+// Test API endpoint
+app.get('/api/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API is working!'
   });
 });
 
