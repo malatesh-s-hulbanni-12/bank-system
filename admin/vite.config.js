@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/',
+  base: './',
   server: {
     port: 5173,
     proxy: {
@@ -18,17 +18,14 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    assetsDir: 'assets',
+    cssCodeSplit: true,
     rollupOptions: {
       output: {
-        entryFileNames: 'assets/[name].[hash].js',
-        chunkFileNames: 'assets/[name].[hash].js',
-        assetFileNames: 'assets/[name].[hash].[ext]'
+        manualChunks: undefined
       }
     }
   },
   css: {
-    modules: false,
-    devSourcemap: true
+    postcss: './postcss.config.js'
   }
 })
