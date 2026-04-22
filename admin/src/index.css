@@ -1,0 +1,79 @@
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans text-gray-800;
+  }
+}
+
+@layer utilities {
+  .text-deep-navy {
+    color: #0A2540;
+  }
+  .text-royal-blue {
+    color: #0047AB;
+  }
+  .text-gold {
+    color: #FFD700;
+  }
+  .bg-deep-navy {
+    background-color: #0A2540;
+  }
+  .bg-royal-blue {
+    background-color: #0047AB;
+  }
+  .bg-gold {
+    background-color: #FFD700;
+  }
+  .border-royal-blue {
+    border-color: #0047AB;
+  }
+  .from-royal-blue {
+    --tw-gradient-from: #0047AB;
+  }
+  .to-deep-navy {
+    --tw-gradient-to: #0A2540;
+  }
+}
+
+
+
+/* Add to index.css */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+
+
+/* Add to index.css if not already there */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
