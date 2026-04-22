@@ -14,8 +14,6 @@ const bcrypt = require('bcryptjs');
 // Import routes
 const employeeRoutes = require('./routes/employeeRoutes');
 const customerRoutes = require('./routes/customerRoutes');
-
-// backend/server.js - Add this line with other routes
 const transactionRoutes = require('./routes/transactionRoutes');
 
 // Import Cloudinary test connection
@@ -36,10 +34,35 @@ console.log('===================================');
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/bankdb')
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.log('MongoDB connection error:', err.message));
+// MongoDB Connection with serverless support
+let cached = global.mongoose;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function connectDB() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+  
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+    cached.promise = mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/bankdb', opts).then((mongoose) => {
+      console.log('MongoDB connected successfully');
+      return mongoose;
+    }).catch(err => {
+      console.log('MongoDB connection error:', err.message);
+      throw err;
+    });
+  }
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+
+// Connect to MongoDB
+connectDB();
 
 // Test Cloudinary connection
 testConnection();
@@ -103,6 +126,7 @@ app.post('/api/employee/login', async (req, res) => {
   const { email, password } = req.body;
   
   try {
+    await connectDB();
     const Employee = require('./models/Employee');
     
     const employee = await Employee.findOne({ email });
@@ -147,6 +171,7 @@ app.post('/api/customer/login', async (req, res) => {
   const { accountNumber, panNumber, aadharNumber, dateOfBirth } = req.body;
   
   try {
+    await connectDB();
     const Customer = require('./models/Customer');
     
     // Find customer by account number
@@ -201,24 +226,30 @@ app.post('/api/customer/login', async (req, res) => {
 // Employee routes
 app.use('/api/employees', employeeRoutes);
 app.use('/api/customers', customerRoutes);
-// Add after other routes
 app.use('/api/transactions', transactionRoutes);
 
-// Start server with error handling for port conflicts
-const startServer = (port) => {
-  const server = app.listen(port, () => {
-    console.log(`Backend server running on http://localhost:${port}`);
-    console.log(`Admin credentials from backend/.env:`);
-    console.log(`  Email: ${process.env.ADMIN_EMAIL}`);
-    console.log(`  Password: ${process.env.ADMIN_PASSWORD}`);
-  }).on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-      console.log(`Port ${port} is already in use. Trying port ${port + 1}...`);
-      startServer(port + 1);
-    } else {
-      console.log('Server error:', err);
-    }
-  });
-};
+// Export for Vercel serverless function
+if (process.env.VERCEL) {
+  module.exports = app;
+}
 
-startServer(PORT);
+// Start server with error handling for port conflicts (only when not on Vercel)
+if (!process.env.VERCEL) {
+  const startServer = (port) => {
+    const server = app.listen(port, () => {
+      console.log(`Backend server running on http://localhost:${port}`);
+      console.log(`Admin credentials from backend/.env:`);
+      console.log(`  Email: ${process.env.ADMIN_EMAIL}`);
+      console.log(`  Password: ${process.env.ADMIN_PASSWORD}`);
+    }).on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        console.log(`Port ${port} is already in use. Trying port ${port + 1}...`);
+        startServer(port + 1);
+      } else {
+        console.log('Server error:', err);
+      }
+    });
+  };
+  
+  startServer(PORT);
+}
