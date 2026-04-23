@@ -12,7 +12,8 @@ const {
   updateCustomerStatus,
   deleteCustomer,
   searchCustomers,
-  getCustomerStats
+  getCustomerStats,
+  updateCustomerBalance
 } = require('../controllers/customerController');
 
 // Multer configuration for multiple file uploads
@@ -33,6 +34,7 @@ router.get('/email/:email', getCustomerByEmail);
 router.get('/:id', getCustomerById);
 router.put('/:id', updateCustomer);
 router.put('/:id/status', updateCustomerStatus);
+router.put('/balance/:accountNumber', updateCustomerBalance);
 router.delete('/:id', deleteCustomer);
 
 module.exports = router;

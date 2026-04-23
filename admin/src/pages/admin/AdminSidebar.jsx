@@ -1,6 +1,6 @@
 // pages/admin/AdminSidebar.jsx
 import React from 'react';
-import { FaTachometerAlt, FaUsers, FaUserTie, FaSignOutAlt, FaUniversity, FaTimes, FaHistory } from 'react-icons/fa';
+import { FaTachometerAlt, FaUsers, FaUserTie, FaSignOutAlt, FaUniversity, FaTimes, FaHistory, FaHandHoldingUsd } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const AdminSidebar = ({ isOpen, onClose }) => {
@@ -12,6 +12,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
     { id: 'employees', name: 'Manage Employees', path: '/admin/employees', icon: FaUserTie },
     { id: 'customers', name: 'Manage Customers', path: '/admin/customers', icon: FaUsers },
     { id: 'employee-history', name: 'Employee History', path: '/admin/employee-history', icon: FaHistory },
+    { id: 'loans', name: 'Loan Approvals', path: '/admin/loans', icon: FaHandHoldingUsd },
   ];
 
   const isActive = (path) => location.pathname === path;

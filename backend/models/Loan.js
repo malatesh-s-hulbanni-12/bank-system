@@ -4,15 +4,15 @@ const loanSchema = new mongoose.Schema({
   loanId: { type: String, required: true, unique: true },
   accountNumber: { type: String, required: true },
   customerName: { type: String, required: true },
-  customerEmail: { type: String, required: true },
-  customerPhone: { type: String, required: true },
+  customerEmail: { type: String, default: '' },
+  customerPhone: { type: String, default: '' },
   amount: { type: Number, required: true },
   tenure: { type: Number, required: true },
   interestRate: { type: Number, required: true },
   emi: { type: Number, required: true },
   totalPayable: { type: Number, required: true },
   loanType: { type: String, required: true },
-  documentUrl: { type: String, required: true },
+  documentUrl: { type: String, default: '' },  // NOT required
   status: { type: String, default: 'Pending' },
   appliedBy: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }

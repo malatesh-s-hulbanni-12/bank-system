@@ -413,7 +413,7 @@ const getCustomerStats = async (req, res) => {
   }
 };
 
-// @desc    Update customer balance (for deposit/withdraw)
+// @desc    Update customer balance (for deposit/withdraw and fixed deposit deduction)
 // @route   PUT /api/customers/balance/:accountNumber
 // @access  Private/Employee
 const updateCustomerBalance = async (req, res) => {
