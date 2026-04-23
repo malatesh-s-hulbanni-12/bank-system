@@ -15,6 +15,8 @@ const bcrypt = require('bcryptjs');
 const employeeRoutes = require('./routes/employeeRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
+const loanRoutes = require('./routes/loanRoutes');
+const fixedDepositRoutes = require('./routes/fixedDepositRoutes');
 
 // Import Cloudinary test connection
 const { testConnection } = require('./config/cloudinary');
@@ -30,8 +32,28 @@ console.log('CLOUDINARY_API_KEY:', process.env.CLOUDINARY_API_KEY ? '✓ Set' : 
 console.log('CLOUDINARY_API_SECRET:', process.env.CLOUDINARY_API_SECRET ? '✓ Set' : '✗ Missing');
 console.log('===================================');
 
-// Middleware
-app.use(cors());
+// Middleware - CORS configuration for frontend
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://bank-system.vercel.app',
+  'https://bank-system-six-nu.vercel.app'  // Replace with your actual frontend URL
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      console.log('Blocked origin:', origin);
+      return callback(new Error('CORS not allowed'), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 // Root route handler - Fix for "Cannot GET /"
@@ -254,6 +276,9 @@ app.post('/api/customer/login', async (req, res) => {
 app.use('/api/employees', employeeRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/transactions', transactionRoutes);
+// Add after other routes
+app.use('/api/loans', loanRoutes);
+app.use('/api/fixed-deposits', fixedDepositRoutes);
 
 // Export for Vercel serverless function
 if (process.env.VERCEL) {
