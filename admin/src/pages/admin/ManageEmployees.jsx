@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaSearch, FaEdit, FaTrash, FaUserPlus, FaEye, FaToggleOn, FaToggleOff, FaSpinner } from 'react-icons/fa';
 
-const API_URL = 'http://localhost:5000/api';
+// In any component
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const ManageEmployees = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -242,7 +243,7 @@ const AddEmployeeModal = ({ onClose, onSuccess }) => {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/employees', {
+      const response = await fetch(`${API_URL}/employees`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -330,7 +331,7 @@ const EditEmployeeModal = ({ employee, onClose, onSuccess }) => {
     setError('');
     
     try {
-      const response = await fetch(`http://localhost:5000/api/employees/${employee._id}`, {
+      const response = await fetch(`${API_URL}/employees/${employee._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

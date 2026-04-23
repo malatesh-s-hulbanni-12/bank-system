@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { FaHome, FaInfoCircle, FaServicestack, FaEnvelope, FaSignInAlt, FaBars, FaTimes, FaUniversity, FaUser, FaUserTie, FaUsers, FaIdCard, FaCalendarAlt, FaCreditCard, FaHandHoldingUsd, FaChartLine } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
+// In any component
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
@@ -298,7 +301,7 @@ const AdminLoginForm = ({ onSuccess }) => {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch('http://localhost:5000/api/admin/login', {
+      const response = await fetch(`${API_URL}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -351,7 +354,7 @@ const CustomerLoginForm = ({ onSuccess }) => {
     }
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/customer/login', {
+      const response = await fetch(`${API_URL}/customer/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ accountNumber, panNumber, aadharNumber, dateOfBirth }),
@@ -406,7 +409,7 @@ const EmployeeLoginForm = ({ onSuccess }) => {
     }
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/employee/login', {
+      const response = await fetch(`${API_URL}/employee/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

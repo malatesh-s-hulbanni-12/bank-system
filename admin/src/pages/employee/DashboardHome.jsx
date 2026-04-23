@@ -4,7 +4,8 @@ import { FaUsers, FaMoneyBillWave, FaUserPlus, FaChartLine, FaBell, FaClock, FaA
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+// In any component
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const DashboardHome = () => {
   const employeeName = localStorage.getItem('employeeName') || 'Employee';

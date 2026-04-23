@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import { FaUser, FaEnvelope, FaPhone, FaIdCard, FaRupeeSign, FaSave, FaTimes, FaUpload, FaFile, FaImage, FaSignature } from 'react-icons/fa';
 import axios from 'axios';
 
+
+// In any component
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const CreateAccount = () => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -91,7 +95,7 @@ const CreateAccount = () => {
     submitData.append('signature', documents.signature);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/customers/create', submitData, {
+      const response = await axios.post(`${API_URL}/customers/create`, submitData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       

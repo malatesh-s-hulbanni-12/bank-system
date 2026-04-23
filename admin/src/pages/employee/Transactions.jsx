@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { FaSearch, FaRupeeSign, FaArrowUp, FaArrowDown, FaWallet, FaCreditCard, FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+// In any component
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const Transactions = () => {
   const [accountNumber, setAccountNumber] = useState('');

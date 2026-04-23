@@ -4,7 +4,8 @@ import { FaSearch, FaEye, FaEdit, FaLock, FaUnlock, FaTrash, FaUser, FaEnvelope,
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+// In any component
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const ManageAccounts = () => {
   const location = useLocation();

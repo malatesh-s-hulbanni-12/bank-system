@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { FaSearch, FaEye, FaSpinner, FaUserTie, FaEnvelope, FaPhone, FaCalendarAlt, FaBriefcase, FaUsers, FaMoneyBillWave, FaUserPlus, FaChartLine, FaDownload } from 'react-icons/fa';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+// In any component
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const EmployeeHistory = () => {
   const [employees, setEmployees] = useState([]);
