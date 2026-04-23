@@ -1,31 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base: '/',
   server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'https://bank-system-backend.vercel.app',
-        changeOrigin: true,
-        secure: false
-      }
-    }
+    port: 5173
   },
   build: {
     outDir: 'dist',
     sourcemap: false,
-    cssCodeSplit: true,
     rollupOptions: {
       output: {
-        manualChunks: undefined
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]'
       }
     }
-  },
-  css: {
-    postcss: './postcss.config.js'
   }
 })
