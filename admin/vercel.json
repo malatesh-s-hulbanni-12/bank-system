@@ -11,8 +11,22 @@
   ],
   "routes": [
     {
-      "src": "/(.*)\\.(js|css|json|map|ico|svg|png|jpg|jpeg|gif|webp|woff|woff2|ttf|eot)$",
-      "dest": "/$1.$2",
+      "src": "/assets/css/(.*)",
+      "dest": "/assets/css/$1",
+      "headers": {
+        "Content-Type": "text/css"
+      }
+    },
+    {
+      "src": "/assets/(.*\\.css)",
+      "dest": "/assets/$1",
+      "headers": {
+        "Content-Type": "text/css"
+      }
+    },
+    {
+      "src": "/assets/(.*\\.js)",
+      "dest": "/assets/$1",
       "headers": {
         "Content-Type": "application/javascript"
       }

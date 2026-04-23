@@ -5,6 +5,9 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 
+// Force CSS to be loaded
+console.log('CSS loaded');
+
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <App />
